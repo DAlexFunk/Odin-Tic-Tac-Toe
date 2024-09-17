@@ -72,32 +72,51 @@ const Gameboard = (function() {
     return {displayBoard, updateBoard, checkWin, checkTie, checkContinue};
 })();
 
+const Formatter = (function() {
+    function setSymbol(target, symbol) {
+        target.textContent = symbol;
+        target.setAttribute("class", "cell");
+    }
+
+    return {setSymbol};
+})();
+
 const Player = function(symbol, name) {
     return {symbol, name};
 }
 
-const player1 = Player("x", "player1");
-const player2 = Player("o", "player2");
+const player1 = Player("x", "Alex");
+const player2 = Player("o", "Christian");
+
+const dialogBox = document.querySelector("dialog");
+const dialogBoxP = document.querySelector("dialog div#playerWinText");
+const dialogBoxClose = document.querySelector("dialog button");
 
 let currentPlayer = player2;
-while (Gameboard.checkContinue()) {
+
+function playRound(evt) {
     currentPlayer = currentPlayer === player1 ? player2 : player1;
+    const currentDiv = document.elementFromPoint(evt.clientX, evt.clientY);
+    let classList = currentDiv.className;
 
-    Gameboard.displayBoard();
+    if (classList.includes("cell")) {
+        Formatter.setSymbol(currentDiv, currentPlayer.symbol);
+        Gameboard.updateBoard(currentPlayer.symbol, parseInt(currentDiv.getAttribute("pos1")), parseInt(currentDiv.getAttribute("pos2")));
+    } else {
+        currentPlayer = currentPlayer === player1 ? player2 : player1;
+    }
 
-    let rowChoice = parseInt(prompt(`What is your row choice ${currentPlayer.name}?`));
-    let colChoice = parseInt(prompt(`What is your column choice ${currentPlayer.name}?`));
+    if (!Gameboard.checkContinue()) {
+        document.removeEventListener("click", playRound);
 
-    while(!Gameboard.updateBoard(currentPlayer.symbol, rowChoice, colChoice)) {
-        console.log("Invalid Input");
-        rowChoice = parseInt(prompt(`What is your row choice ${currentPlayer.name}?`));
-        colChoice = parseInt(prompt(`What is your column choice ${currentPlayer.name}?`));
+        if (Gameboard.checkWin()) {
+            dialogBoxP.textContent = `${currentPlayer.name} Won`;
+        } else {
+            dialogBoxP.textContent = "It was a tie";
+        }
+        dialogBox.showModal();
     }
 }
 
-Gameboard.displayBoard();
-if (Gameboard.checkWin()) {
-    console.log(`${currentPlayer.name} WON`);
-} else {
-    console.log("It was a tie");
-}
+document.addEventListener("click", playRound);
+dialogBoxClose.addEventListener("click", () => dialogBox.close());

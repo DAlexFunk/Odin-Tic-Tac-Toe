@@ -8,6 +8,21 @@
     <script src="script.js" defer></script>
 </head>
 <body>
-    
+    <div id="gameboard">
+        <div class="cell empty" pos1="0" pos2="0"></div>
+        <div class="cell empty" pos1="0" pos2="1"></div>
+        <div class="cell empty" pos1="0" pos2="2"></div>
+        <div class="cell empty" pos1="1" pos2="0"></div>
+        <div class="cell empty" pos1="1" pos2="1"></div>
+        <div class="cell empty" pos1="1" pos2="2"></div>
+        <div class="cell empty" pos1="2" pos2="0"></div>
+        <div class="cell empty" pos1="2" pos2="1"></div>
+        <div class="cell empty" pos1="2" pos2="2"></div>
+    </div>
+
+    <dialog id="playerWon">
+        <button id="close">Close</button>
+        <div id="playerWinText"></div>
+    </dialog>
 </body>
 </html>
