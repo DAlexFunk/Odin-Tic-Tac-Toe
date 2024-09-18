@@ -1,7 +1,7 @@
 const Gameboard = (function() {
-    const gameState = [[" ", " ", " "],
-                       [" ", " ", " "],
-                       [" ", " ", " "]];
+    let gameState = [[" ", " ", " "],
+                     [" ", " ", " "],
+                     [" ", " ", " "]];
 
 
     function updateBoard(symbol, pos1, pos2) {
@@ -15,6 +15,12 @@ const Gameboard = (function() {
 
         gameState[pos1][pos2] = symbol;
         return true;
+    }
+
+    function resetState() {
+        gameState = [[" ", " ", " "],
+                     [" ", " ", " "],
+                     [" ", " ", " "]];
     }
 
 
@@ -64,7 +70,7 @@ const Gameboard = (function() {
         return !checkTie() && !checkWin();
     }
 
-    return {updateBoard, checkWin, checkTie, checkContinue};
+    return {updateBoard, checkWin, checkTie, checkContinue, resetState};
 })();
 
 
@@ -74,11 +80,18 @@ const Formatter = (function() {
         target.setAttribute("class", "cell");
     }
 
-    return {setSymbol};
+    function resetBoard() {
+        cells.forEach((cell) => {
+            cell.setAttribute("class", "cell empty");
+            cell.textContent = "";
+        })
+    }
+
+    return {setSymbol, resetBoard};
 })();
 
 
-const Player = function(symbol, name) {
+const Player = function(symbol, name) {    
     return {symbol, name};
 }
 
@@ -107,7 +120,7 @@ function playRound(evt) {
         } else {
             dialogBoxP.textContent = "It was a tie";
         }
-        dialogBox.showModal();
+        gameOverBox.showModal();
     }
     currentPlayer = currentPlayer === player1 ? player2 : player1;
 }
@@ -132,16 +145,34 @@ function displayGhostOnHover(evt) {
     }
 }
 
+function resetGame() {
+    Gameboard.resetState();
+    Formatter.resetBoard();
+
+    player1.name = prompt("Enter player one's(x) name");
+    player2.name = prompt("Enter player two's(o) name")
+
+    document.addEventListener("click", playRound);
+    document.addEventListener("mouseover", displayGhostOnHover);
+
+    currentPlayer = player1;
+}
+
 const player1 = Player("X", prompt("Enter player one's(x) name"));
 const player2 = Player("O", prompt("Enter player two'2(x) name"));
 
-const dialogBox = document.querySelector("dialog");
+const gameOverBox = document.querySelector("dialog");
 const dialogBoxP = document.querySelector("dialog div#playerWinText");
 const dialogBoxClose = document.querySelector("dialog button");
+
+const cells = document.querySelectorAll(".cell");
+const resetButton = document.querySelector("header button");
 
 let currentPlayer = player1;
 
 
+dialogBoxClose.addEventListener("click", () => gameOverBox.close());
+
 document.addEventListener("click", playRound);
-dialogBoxClose.addEventListener("click", () => dialogBox.close());
 document.addEventListener("mouseover", displayGhostOnHover);
+resetButton.addEventListener("click", resetGame);

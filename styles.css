@@ -16,6 +16,7 @@ body {
 }
 
 header {
+    position: relative;
     margin: 0;
     padding: 0;
     width: 100%;
@@ -25,6 +26,15 @@ header {
     color: #edede9;
     font-size: 48px;
     text-align: center;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+header button {
+    position: absolute;
+    left: 66%;
 }
 
 #gameboard {
@@ -54,6 +64,8 @@ dialog {
     height: 300px;
     width: 500px;
     padding: 0;
+    background-color: #edede9;
+    border: 8px solid #001219;
     font-size: 64px;
 }
 
