@@ -12,6 +12,22 @@
         <button id="resetButton">Reset Game</button>
     </header>
 
+    <dialog id="playerNamesDialog">
+        <div id="playerNames">
+            <div id="text">Please enter each players' name</div>
+            
+            <div class="playerName" id="player1">
+                <label for="player1Name">Player One (x): </label>
+                <input type="text" id="player1Name">
+            </div>
+            <div class="playerName" id="player2">
+                <label for="player2Name">Player Two (o): </label>
+                <input type="text" id="player2Name">
+            </div>
+            <button id="nameSubmit">Submit</button>
+        </div>
+    </dialog>
+
     <div id="gameboard">
         <div class="cell empty" pos1="0" pos2="0"></div>
         <div class="cell empty" pos1="0" pos2="1"></div>

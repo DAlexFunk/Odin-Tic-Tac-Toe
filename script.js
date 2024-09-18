@@ -112,7 +112,7 @@ function playRound(evt) {
 
 
     if (!Gameboard.checkContinue()) {
-        document.removeEventListener("click", playRound);
+        document.removeEventListener("click", playRound, true);
         document.removeEventListener("mouseover", displayGhostOnHover);
 
         if (Gameboard.checkWin()) {
@@ -149,30 +149,43 @@ function resetGame() {
     Gameboard.resetState();
     Formatter.resetBoard();
 
-    player1.name = prompt("Enter player one's(x) name");
-    player2.name = prompt("Enter player two's(o) name")
+    playerNamesDialog.showModal();
 
-    document.addEventListener("click", playRound);
+    document.addEventListener("click", playRound, true);
     document.addEventListener("mouseover", displayGhostOnHover);
 
     currentPlayer = player1;
 }
 
-const player1 = Player("X", prompt("Enter player one's(x) name"));
-const player2 = Player("O", prompt("Enter player two'2(x) name"));
+function startGame() {
+    player1.name = player1Name.value;
+    player2.name = player2Name.value;
 
-const gameOverBox = document.querySelector("dialog");
-const dialogBoxP = document.querySelector("dialog div#playerWinText");
-const dialogBoxClose = document.querySelector("dialog button");
+    playerNamesDialog.close();
+
+    document.addEventListener("click", playRound, true);
+    document.addEventListener("mouseover", displayGhostOnHover);
+}
+
+const player1 = Player("X", null);
+const player2 = Player("O", null);
+
+const gameOverBox = document.querySelector("#playerWon");
+const dialogBoxP = document.querySelector("#playerWon div#playerWinText");
+const dialogBoxClose = document.querySelector("#playerWon button");
+
+const playerNamesDialog = document.querySelector("#playerNamesDialog");
+const namesSubmitButton = document.querySelector("#playerNames button");
+const player1Name = document.querySelector("#player1 input");
+const player2Name = document.querySelector("#player2 input");
 
 const cells = document.querySelectorAll(".cell");
 const resetButton = document.querySelector("header button");
 
 let currentPlayer = player1;
 
-
 dialogBoxClose.addEventListener("click", () => gameOverBox.close());
-
-document.addEventListener("click", playRound);
-document.addEventListener("mouseover", displayGhostOnHover);
 resetButton.addEventListener("click", resetGame);
+namesSubmitButton.addEventListener("click", startGame);
+
+playerNamesDialog.showModal();

@@ -35,6 +35,18 @@ header {
 header button {
     position: absolute;
     left: 66%;
+    background-color: #edede9;
+    color: #001219;
+    border: none;
+    border-radius: 4px;
+}
+
+header button:hover {
+    filter: brightness(75%);
+}
+
+header button:active {
+    filter: brightness(50%);
 }
 
 #gameboard {
@@ -69,10 +81,23 @@ dialog {
     font-size: 64px;
 }
 
-dialog button {
+#playerWon button {
     position: absolute;
     top: 5px;
     right: 5px;
+    padding: 4px;
+    background-color: #005f73;
+    color: #edede9;
+    border: none;
+    border-radius: 5px;
+}
+
+#playerWon button:hover {
+    filter: brightness(75%);
+}
+
+#playerWon button:active {
+    filter: brightness(50%);
 }
 
 dialog #playerWinText { 
@@ -82,4 +107,57 @@ dialog #playerWinText {
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+#playerNamesDialog {
+    position: relative;
+}
+
+#playerNames {
+    box-sizing: border-box;
+    font-size: 32px;
+    height: 80%;
+    padding: 16px;
+
+    display: grid;
+    grid-template: 25% 1fr / 50% 50%;
+}
+
+#playerNames #text {
+    grid-area: 1 / 1 / 2 / 3;
+}
+
+#playerNames .playerName {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+
+    font-size: 24px;
+}
+
+.playerName input {
+    width: 50%;
+}
+
+#playerNames button {
+    height: 32px;
+    width: 72px;
+    background-color: #005f73;
+    color: #edede9;
+    border: none;
+    border-radius: 5px;
+
+    position: absolute;
+    bottom: 16px;
+    right: calc(50% - 36px);
+}
+
+#playerNames button:hover {
+    filter: brightness(75%);
+}
+
+#playerNames button:active {
+    filter: brightness(50%);
 }
